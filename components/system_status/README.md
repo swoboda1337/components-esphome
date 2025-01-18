@@ -1,6 +1,6 @@
 # System status component
 
-This component output useful debug when the logger connects to the device.
+This component outputs useful debug when a logger connects to the device.
 
 Custom logging can be added in the on_dump_config action.
 

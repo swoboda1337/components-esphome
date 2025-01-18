@@ -1,8 +1,6 @@
 Collection of my ESPHome components
 
-Use [external components](https://esphome.io/components/external_components.html).
-
-Example:
+Use [external components](https://esphome.io/components/external_components.html), example:
 ```yaml
 external_components:
   - source: github://swoboda1337/components-esphome@main
