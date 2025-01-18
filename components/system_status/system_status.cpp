@@ -21,7 +21,8 @@ std::string SystemStatusComponent::get_uptime_() {
   seconds -= hours * (60 * 60);
   uint32_t minutes = seconds / 60;
   seconds -= minutes * 60;
-  return str_sprintf("%u days %02u:%02u:%02u", days, hours, minutes, seconds);
+  return str_sprintf("%" PRIu32 " days %02" PRIu32 ":%02" PRIu32 ":%02" PRIu32,
+                     days, hours, minutes, seconds);
 #else
   return "";
 #endif
@@ -30,7 +31,7 @@ std::string SystemStatusComponent::get_uptime_() {
 void SystemStatusComponent::dump_config() {
   std::string uptime = this->get_uptime_();
   ESP_LOGCONFIG(TAG, "System Status:");
-  ESP_LOGCONFIG(TAG, "  Frequency: %u hz", arch_get_cpu_freq_hz());
+  ESP_LOGCONFIG(TAG, "  Frequency: %" PRIu32 " hz", arch_get_cpu_freq_hz());
   if (uptime != "") {
     ESP_LOGCONFIG(TAG, "  Uptime: %s", uptime.c_str());
   }
