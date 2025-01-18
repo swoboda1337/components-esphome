@@ -14,6 +14,7 @@ class SystemStatusComponent : public Component {
 
  protected:
   Trigger<> *dump_config_trigger_{new Trigger<>()};
+  std::string get_uptime_();
 };
 
 }  // namespace system_status

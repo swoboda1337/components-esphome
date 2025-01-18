@@ -14,8 +14,8 @@ system_status:
 
 Logs:
 ```
-[22:14:21][C][system_status:013]: System Status:
-[22:14:21][C][system_status:014]:   Frequency: 240000000 hz
-[22:39:31][C][system_status:056]:   Testing: 1234
-
+[23:05:31][C][system_status:032]: System Status:
+[23:05:31][C][system_status:033]:   Frequency: 240000000 hz
+[23:05:31][C][system_status:035]:   Uptime: 0 days 00:00:06
+[23:05:31][C][system_status:056]:   Testing: 1234
 ```
