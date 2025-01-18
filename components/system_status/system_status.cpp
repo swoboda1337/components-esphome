@@ -11,7 +11,7 @@ static const char *const TAG = "system_status";
 
 void SystemStatusComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "System Status:");
-  ESP_LOGCONFIG(TAG, "  Frequency: %u", arch_get_cpu_freq_hz());
+  ESP_LOGCONFIG(TAG, "  Frequency: %u hz", arch_get_cpu_freq_hz());
   this->dump_config_trigger_->trigger();
 }
 
