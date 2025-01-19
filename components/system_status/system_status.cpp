@@ -29,12 +29,9 @@ std::string SystemStatusComponent::get_uptime_() {
 }
 
 void SystemStatusComponent::dump_config() {
-  std::string uptime = this->get_uptime_();
   ESP_LOGCONFIG(TAG, "System Status:");
   ESP_LOGCONFIG(TAG, "  Frequency: %" PRIu32 " hz", arch_get_cpu_freq_hz());
-  if (uptime != "") {
-    ESP_LOGCONFIG(TAG, "  Uptime: %s", uptime.c_str());
-  }
+  ESP_LOGCONFIG(TAG, "  Uptime: %s", this->get_uptime_().c_str());
   this->dump_config_trigger_->trigger();
 }
 
