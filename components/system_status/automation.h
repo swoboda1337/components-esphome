@@ -7,6 +7,20 @@
 namespace esphome {
 namespace system_status {
 
+template<typename... Ts> class SystemStatusSetUnitsAction : public Action<Ts...> {
+ public:
+  SystemStatusSetUnitsAction(SystemStatusComponent *system_status) : system_status_(system_status) {}
+  TEMPLATABLE_VALUE(std::string, label)
+  TEMPLATABLE_VALUE(std::string, units)
+
+  void play(Ts... x) override {
+    this->system_status_->set_units(this->label_.value(x...), this->units_.value(x...));
+  }
+
+ protected:
+  SystemStatusComponent *system_status_;
+};
+
 template<typename... Ts> class SystemStatusSetStringAction : public Action<Ts...> {
  public:
   SystemStatusSetStringAction(SystemStatusComponent *system_status) : system_status_(system_status) {}

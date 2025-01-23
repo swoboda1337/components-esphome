@@ -13,6 +13,10 @@ esphome:
         id: system_status_id
         label: "WiFi disconnects"
         value: 0
+    - system_status.set_units:
+        id: system_status_id
+        label: "Lambda"
+        units: "asdf"
 
 wifi:
   ssid: !secret wifi_ssid
@@ -35,8 +39,8 @@ system_status:
 Logs:
 ```
 [23:08:04][C][system_status:058]: System Status:
-[23:08:04][C][system_status:062]:   Frequency: 240000000
-[23:08:04][C][system_status:062]:   Lambda: 1234
+[23:08:04][C][system_status:062]:   Frequency: 240000000 hz
+[23:08:04][C][system_status:062]:   Lambda: 1234 asdf
 [23:08:04][C][system_status:062]:   Uptime: 0 days 00:00:06
 [23:08:05][C][system_status:062]:   WiFi disconnects: 0
 ```
