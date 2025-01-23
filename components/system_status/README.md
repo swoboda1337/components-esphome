@@ -36,6 +36,6 @@ Logs:
 [23:08:04][C][system_status:058]: System Status:
 [23:08:04][C][system_status:062]:   Frequency: 240000000 hz
 [23:08:04][C][system_status:062]:   Lambda: 1234 asdf
-[23:08:04][C][system_status:062]:   Uptime: 0 days 00:00:06
+[23:08:04][C][system_status:062]:   Uptime: 01:12:55 up 0 days
 [23:08:05][C][system_status:062]:   WiFi disconnects: 0
 ```

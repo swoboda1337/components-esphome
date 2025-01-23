@@ -47,8 +47,8 @@ std::string SystemStatusComponent::get_uptime_() {
   seconds -= hours * (60 * 60);
   uint32_t minutes = seconds / 60;
   seconds -= minutes * 60;
-  return str_sprintf("%" PRIu32 " days %02" PRIu32 ":%02" PRIu32 ":%02" PRIu32,
-                     days, hours, minutes, seconds);
+  return str_sprintf("%02" PRIu32 ":%02" PRIu32 ":%02" PRIu32 " up %" PRIu32 " days",
+                     hours, minutes, seconds, days);
 #else
   return "";
 #endif
