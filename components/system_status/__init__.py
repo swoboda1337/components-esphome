@@ -41,7 +41,7 @@ async def to_code(config):
     SystemStatusSetUnitsAction,
     cv.Schema(
         {
-            cv.Required(CONF_ID): cv.use_id(SystemStatusComponent),
+            cv.GenerateID(): cv.use_id(SystemStatusComponent),
             cv.Required(CONF_LABEL): cv.templatable(cv.string),
             cv.Required(CONF_UNITS): cv.templatable(cv.string),
         }
@@ -62,7 +62,7 @@ async def system_status_set_string_to_code(config, action_id, template_arg, args
     SystemStatusSetStringAction,
     cv.Schema(
         {
-            cv.Required(CONF_ID): cv.use_id(SystemStatusComponent),
+            cv.GenerateID(): cv.use_id(SystemStatusComponent),
             cv.Required(CONF_LABEL): cv.templatable(cv.string),
             cv.Required(CONF_VALUE): cv.templatable(cv.string),
         }
@@ -83,7 +83,7 @@ async def system_status_set_string_to_code(config, action_id, template_arg, args
     SystemStatusSetIntegerAction,
     cv.Schema(
         {
-            cv.Required(CONF_ID): cv.use_id(SystemStatusComponent),
+            cv.GenerateID(): cv.use_id(SystemStatusComponent),
             cv.Required(CONF_LABEL): cv.templatable(cv.string),
             cv.Required(CONF_VALUE): cv.templatable(cv.int_),
         }
@@ -104,7 +104,7 @@ async def system_status_set_integer_to_code(config, action_id, template_arg, arg
     SystemStatusIncIntegerAction,
     cv.Schema(
         {
-            cv.Required(CONF_ID): cv.use_id(SystemStatusComponent),
+            cv.GenerateID(): cv.use_id(SystemStatusComponent),
             cv.Required(CONF_LABEL): cv.templatable(cv.string),
             cv.Required(CONF_VALUE): cv.templatable(cv.int_),
         }
