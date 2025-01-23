@@ -8,10 +8,9 @@ namespace system_status {
 
 class SystemStatusItem {
  public:
-  void value_inc(int32_t value);
-  void value_dec(int32_t value);
-  void value_set(int32_t value);
-  void value_set(std::string value);
+  void set_string(std::string value);
+  void set_integer(int32_t value);
+  void inc_integer(int32_t value);
   const std::string& to_string();
  protected:
   std::string value_str_;
@@ -24,10 +23,9 @@ class SystemStatusComponent : public Component {
  public:
   float get_setup_priority() const override { return setup_priority::LATE; }
   void dump_config() override;
-  void value_inc(std::string id, int32_t value) { this->data_[id].value_inc(value); }
-  void value_dec(std::string id, int32_t value) { this->data_[id].value_dec(value); }
-  void value_set(std::string id, int32_t value) { this->data_[id].value_set(value); }
-  void value_set(std::string id, std::string value) { this->data_[id].value_set(value); }
+  void set_string(std::string label, std::string value) { this->data_[label].set_string(value); }
+  void set_integer(std::string label, int32_t value) { this->data_[label].set_integer(value); }
+  void inc_integer(std::string label, int32_t value) { this->data_[label].inc_integer(value); }
   Trigger<> *get_dump_config_trigger() const { return this->dump_config_trigger_; };
 
  protected:

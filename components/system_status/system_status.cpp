@@ -12,24 +12,19 @@ namespace system_status {
 
 static const char *const TAG = "system_status";
 
-void SystemStatusItem::value_inc(int32_t value) {
-  this->is_string_ = false;
-  this->value_int_ += value;
+void SystemStatusItem::set_string(std::string value) {
+  this->is_string_ = true;
+  this->value_str_ = value;
 }
 
-void SystemStatusItem::value_dec(int32_t value) {
-  this->is_string_ = false;
-  this->value_int_ -= value;
-}
-
-void SystemStatusItem::value_set(int32_t value) {
+void SystemStatusItem::set_integer(int32_t value) {
   this->is_string_ = false;
   this->value_int_ = value;
 }
 
-void SystemStatusItem::value_set(std::string value) {
-  this->is_string_ = true;
-  this->value_str_ = value;
+void SystemStatusItem::inc_integer(int32_t value) {
+  this->is_string_ = false;
+  this->value_int_ += value;
 }
 
 const std::string& SystemStatusItem::to_string() {
@@ -57,14 +52,14 @@ std::string SystemStatusComponent::get_uptime_() {
 
 void SystemStatusComponent::dump_config() {
   // update values and print
-  this->data_["Uptime"].value_set(this->get_uptime_());
-  this->data_["Frequency"].value_set(arch_get_cpu_freq_hz());
+  this->data_["Uptime"].set_string(this->get_uptime_());
+  this->data_["Frequency"].set_integer(arch_get_cpu_freq_hz());
   this->dump_config_trigger_->trigger();
   ESP_LOGCONFIG(TAG, "System Status:");
-  for (auto& i : this->data_) {
-    const std::string& value = i.second.to_string();
+  for (auto& item : this->data_) {
+    const std::string& value = item.second.to_string();
     if (value != "") {
-      ESP_LOGCONFIG(TAG, "  %s: %s", i.first.c_str(), value.c_str());
+      ESP_LOGCONFIG(TAG, "  %s: %s", item.first.c_str(), value.c_str());
     }
   }
 }
