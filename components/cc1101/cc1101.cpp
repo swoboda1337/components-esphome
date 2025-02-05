@@ -690,10 +690,10 @@ void CC1101::set_state_(uint8_t state) {
     delayMicroseconds(5);
     // this->enable();
     this->cs_->digital_write(true);
-    delayMicroseconds(10);
+    delayMicroseconds(40);
     // this->disable();
     this->cs_->digital_write(false);
-    delayMicroseconds(41);
+    delayMicroseconds(200);
   }
 
   this->strobe_(state);
