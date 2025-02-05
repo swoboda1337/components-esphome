@@ -1,0 +1,1 @@
+Copied from https://github.com/esphome/esphome/pull/6300, this is used for testing
