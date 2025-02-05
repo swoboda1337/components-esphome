@@ -23,7 +23,7 @@ class SystemStatusItem {
 
 class SystemStatusComponent : public Component {
  public:
-  float get_setup_priority() const override { return setup_priority::LATE; }
+  float get_setup_priority() const override { return setup_priority::LATE - 100; }
   void setup() override;
   void dump_config() override;
   void set_units(std::string label, std::string units) { this->data_[label].set_units(units); }
