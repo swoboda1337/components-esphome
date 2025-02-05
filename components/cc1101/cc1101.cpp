@@ -217,7 +217,7 @@ void CC1101::dump_config() {
 bool CC1101::reset_() {
   ESP_LOGD(TAG, "Issued CC1101 reset sequence.");
 
-  this->set_state_(CC1101_SRES);
+  // this->set_state_(CC1101_SRES);
 
   // Read part number and version
 
