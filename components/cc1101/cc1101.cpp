@@ -125,7 +125,7 @@ void CC1101::setup() {
   delayMicroseconds(1);
   this->cs_->digital_write(true);
   delayMicroseconds(41);
-  this->cs_->digital_write(false)
+  this->cs_->digital_write(false);
   delay(5);
 
   this->spi_setup();
@@ -693,35 +693,28 @@ void CC1101::set_state_(uint8_t state) {
 }
 
 bool CC1101::wait_state_(uint8_t state) {
-  static constexpr int TIMEOUT_LIMIT = 5000;
-  int timeout = TIMEOUT_LIMIT;
+  static constexpr int TIMEOUT_LIMIT = 1000;
+  uint32_t start = millis();
 
-  while (timeout > 0) {
+  while ((millis() - start) < TIMEOUT_LIMIT) {
     uint8_t s = this->read_status_register_(CC1101_MARCSTATE) & 0x1f;
-    if (state == CC1101_SIDLE) {
+    if (state == CC1101_SIDLE || state == CC1101_SRES) {
       if (s == CC1101_MARCSTATE_IDLE)
-        break;
+        return true;
     } else if (state == CC1101_SRX) {
       if (s == CC1101_MARCSTATE_RX || s == CC1101_MARCSTATE_RX_END || s == CC1101_MARCSTATE_RXTX_SWITCH)
-        break;
+        return true;
     } else if (state == CC1101_STX) {
       if (s == CC1101_MARCSTATE_TX || s == CC1101_MARCSTATE_TX_END || s == CC1101_MARCSTATE_TXRX_SWITCH)
-        break;
+        return true;
     } else {
-      break;  // else if TODO
+      return true;  // else if TODO
     }
-
-    timeout--;
-
     delayMicroseconds(1);
   }
-
-  if (timeout < TIMEOUT_LIMIT) {
-    ESP_LOGW(TAG, "wait_state_(0x%02X) timeout = %d/%d", state, timeout, TIMEOUT_LIMIT);
-    delayMicroseconds(100);
-  }
-
-  return timeout > 0;
+  mark_failed();
+  ESP_LOGE(TAG, "CC1101 modem wait state timeout. Check connection.");
+  return false;
 }
 
 void CC1101::split_mdmcfg2_() {
