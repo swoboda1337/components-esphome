@@ -1,0 +1,1 @@
+Meant for testing only. Use this instead: https://github.com/esphome/esphome/pull/6300
