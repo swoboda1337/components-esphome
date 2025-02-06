@@ -693,10 +693,8 @@ void CC1101::set_state_(uint8_t state) {
 }
 
 bool CC1101::wait_state_(uint8_t state) {
-  static constexpr int TIMEOUT_LIMIT = 1000;
   uint32_t start = millis();
-
-  while ((millis() - start) < TIMEOUT_LIMIT) {
+  while ((millis() - start) < 1000) {
     uint8_t s = this->read_status_register_(CC1101_MARCSTATE) & 0x1f;
     if (state == CC1101_SIDLE || state == CC1101_SRES) {
       if (s == CC1101_MARCSTATE_IDLE)
