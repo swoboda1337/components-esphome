@@ -118,6 +118,16 @@ void CC1101::setup() {
 #endif
   }
 
+  // datasheet 19.1.2
+  this->cs_->digital_write(true);
+  delayMicroseconds(1);
+  this->cs_->digital_write(false);
+  delayMicroseconds(1);
+  this->cs_->digital_write(true);
+  delayMicroseconds(41);
+  this->cs_->digital_write(false)
+  delayMicroseconds(1000);
+
   this->spi_setup();
 
   if (!this->reset_()) {
@@ -678,20 +688,6 @@ void CC1101::set_state_(uint8_t state) {
   ESP_LOGV(TAG, "set_state_(0x%02X)", state);
 
   this->trxstate_ = state;
-
-  if (state == CC1101_SRES) {
-    // datasheet 19.1.2
-    // this->disable(); // esp-idf calls end_transaction and asserts, because no begin_transaction was called
-    this->cs_->digital_write(false);
-    delayMicroseconds(5);
-    // this->enable();
-    this->cs_->digital_write(true);
-    delayMicroseconds(10);
-    // this->disable();
-    this->cs_->digital_write(false);
-    delayMicroseconds(41);
-  }
-
   this->strobe_(state);
   this->wait_state_(state);
 }
