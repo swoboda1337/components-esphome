@@ -126,7 +126,7 @@ void CC1101::setup() {
   this->cs_->digital_write(true);
   delayMicroseconds(41);
   this->cs_->digital_write(false)
-  delayMicroseconds(1000);
+  delay(5);
 
   this->spi_setup();
 
