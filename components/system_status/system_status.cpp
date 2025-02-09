@@ -58,11 +58,11 @@ void SystemStatusComponent::dump_config() {
   this->data_["Uptime"].set_string(this->get_uptime_());
   this->data_["Frequency"].set_integer(arch_get_cpu_freq_hz());
   this->dump_config_trigger_->trigger();
-  ESP_LOGCONFIG(TAG, "System Status:");
+  ESP_LOGI(TAG, "System Status:");
   for (auto& item : this->data_) {
     std::string value = item.second.to_string();
     if (value != "") {
-      ESP_LOGCONFIG(TAG, "  %s: %s", item.first.c_str(), value.c_str());
+      ESP_LOGI(TAG, "  %s: %s", item.first.c_str(), value.c_str());
     }
   }
 }
