@@ -21,10 +21,11 @@ class SystemStatusItem {
 };
 
 
-class SystemStatusComponent : public Component {
+class SystemStatusComponent : public PollingComponent {
  public:
   float get_setup_priority() const override { return setup_priority::LATE - 100; }
   void setup() override;
+  void update() override;
   void dump_config() override;
   void set_units(std::string label, std::string units) { this->data_[label].set_units(units); }
   void set_string(std::string label, std::string value) { this->data_[label].set_string(value); }
@@ -36,6 +37,9 @@ class SystemStatusComponent : public Component {
   std::string get_uptime_();
   std::map<std::string, SystemStatusItem> data_;
   Trigger<> *dump_config_trigger_{new Trigger<>()};
+  uint32_t rollovers_{0};
+  uint32_t start_ms_{0};
+  uint32_t last_ms_{0};
 };
 
 }  // namespace system_status

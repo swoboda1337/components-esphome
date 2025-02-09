@@ -3,9 +3,6 @@
 #include "esphome/core/helpers.h"
 #include "esphome/core/hal.h"
 #include "system_status.h"
-#ifdef USE_ESP32
-#include <esp_timer.h>
-#endif
 
 namespace esphome {
 namespace system_status {
@@ -39,8 +36,8 @@ std::string SystemStatusItem::to_string() {
 }
 
 std::string SystemStatusComponent::get_uptime_() {
-#ifdef USE_ESP32
-  uint32_t seconds = esp_timer_get_time() / 1000000;
+  uint64_t now = ((uint64_t) this->rollovers_ << 32) | millis();
+  uint32_t seconds = (now - this->start_ms_) / 1000;
   uint32_t days = seconds / (60 * 60 * 24);
   seconds -= days * (60 * 60 * 24);
   uint32_t hours = seconds / (60 * 60);
@@ -49,9 +46,6 @@ std::string SystemStatusComponent::get_uptime_() {
   seconds -= minutes * 60;
   return str_sprintf("%02" PRIu32 ":%02" PRIu32 ":%02" PRIu32 " up %" PRIu32 " days",
                      hours, minutes, seconds, days);
-#else
-  return "";
-#endif
 }
 
 void SystemStatusComponent::dump_config() {
@@ -67,8 +61,20 @@ void SystemStatusComponent::dump_config() {
   }
 }
 
+void SystemStatusComponent::update() {
+  uint32_t now = millis();
+  if (now < this->last_ms_) {
+    this->rollovers_++;
+  }
+  this->last_ms_ = now;
+}
+
 void SystemStatusComponent::setup() {
   this->data_["Frequency"].set_units("hz");
+  this->last_ms_ = millis();
+  if (this->last_ms_ >= 60 * 1000) {
+    this->start_ms_ = this->last_ms_;
+  }
 }
 
 }  // namespace system_status

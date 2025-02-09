@@ -10,18 +10,21 @@ CONF_UNITS = "units"
 ON_DUMP_CONFIG = "on_dump_config"
 
 system_status_ns = cg.esphome_ns.namespace("system_status")
-SystemStatusComponent = system_status_ns.class_("SystemStatusComponent", cg.Component)
+SystemStatusComponent = system_status_ns.class_("SystemStatusComponent", cg.PollingComponent)
 SystemStatusSetUnitsAction = system_status_ns.class_("SystemStatusSetUnitsAction", automation.Action)
 SystemStatusSetStringAction = system_status_ns.class_("SystemStatusSetStringAction", automation.Action)
 SystemStatusSetIntegerAction = system_status_ns.class_("SystemStatusSetIntegerAction", automation.Action)
 SystemStatusIncIntegerAction = system_status_ns.class_("SystemStatusIncIntegerAction", automation.Action)
 
 
-CONFIG_SCHEMA = cv.Schema(
-    {
-        cv.GenerateID(): cv.declare_id(SystemStatusComponent),
-        cv.Optional(ON_DUMP_CONFIG): automation.validate_automation(single=True),
-    }
+CONFIG_SCHEMA = (
+    cv.Schema(
+        {
+            cv.GenerateID(): cv.declare_id(SystemStatusComponent),
+            cv.Optional(ON_DUMP_CONFIG): automation.validate_automation(single=True),
+        }
+    )
+    .extend(cv.polling_component_schema("1d"))
 )
 
 
