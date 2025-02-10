@@ -4,6 +4,8 @@ This component outputs useful debug when a logger connects to the device.
 
 Custom logging can be added in the on_dump_config action.
 
+Note this component hooks into the wifi on_disconnect trigger and will overwrite any existing yaml actions if they exist.
+
 Example:
 ```yaml
 esphome:
