@@ -40,6 +40,9 @@ class SystemStatusComponent : public PollingComponent {
   uint32_t rollovers_{0};
   uint32_t start_ms_{0};
   uint32_t last_ms_{0};
+#ifdef USE_WIFI
+  uint32_t wifi_disconnects{0};
+#endif
 };
 
 }  // namespace system_status

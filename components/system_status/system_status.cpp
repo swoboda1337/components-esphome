@@ -1,8 +1,11 @@
-#include "esphome/core/automation.h"
+#include "esphome/core/base_automation.h"
 #include "esphome/core/log.h"
 #include "esphome/core/helpers.h"
 #include "esphome/core/hal.h"
 #include "system_status.h"
+#ifdef USE_WIFI
+#include "esphome/components/wifi/wifi_component.h"
+#endif
 
 namespace esphome {
 namespace system_status {
@@ -49,14 +52,17 @@ std::string SystemStatusComponent::get_uptime_() {
 }
 
 void SystemStatusComponent::dump_config() {
+#ifdef USE_WIFI
+  this->data_["WiFi disconnects"].set_integer(this->wifi_disconnects);
+#endif
   this->data_["Uptime"].set_string(this->get_uptime_());
   this->data_["Frequency"].set_integer(arch_get_cpu_freq_hz());
   this->dump_config_trigger_->trigger();
-  ESP_LOGI(TAG, "System Status:");
+  ESP_LOGCONFIG(TAG, "System Status:");
   for (auto& item : this->data_) {
     std::string value = item.second.to_string();
     if (value != "") {
-      ESP_LOGI(TAG, "  %s: %s", item.first.c_str(), value.c_str());
+      ESP_LOGCONFIG(TAG, "  %s: %s", item.first.c_str(), value.c_str());
     }
   }
 }
@@ -70,11 +76,19 @@ void SystemStatusComponent::update() {
 }
 
 void SystemStatusComponent::setup() {
-  this->data_["Frequency"].set_units("hz");
+#ifdef USE_WIFI
+  auto wifi_trigger = wifi::global_wifi_component->get_disconnect_trigger();
+  auto wifi_automation = new Automation<>(wifi_trigger);
+  auto wifi_lambda = new LambdaAction<>([this]() -> void {
+    this->wifi_disconnects++;
+  });
+  wifi_automation->add_actions({wifi_lambda});
+#endif
   this->last_ms_ = millis();
   if (this->last_ms_ >= 60 * 1000) {
     this->start_ms_ = this->last_ms_;
   }
+  this->data_["Frequency"].set_units("hz");
 }
 
 }  // namespace system_status
