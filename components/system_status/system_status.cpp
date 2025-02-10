@@ -1,8 +1,8 @@
-#include "esphome/core/base_automation.h"
+#include "system_status.h"
 #include "esphome/core/log.h"
 #include "esphome/core/helpers.h"
 #include "esphome/core/hal.h"
-#include "system_status.h"
+#include "esphome/core/base_automation.h"
 #ifdef USE_WIFI
 #include "esphome/components/wifi/wifi_component.h"
 #endif
