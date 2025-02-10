@@ -39,7 +39,7 @@ std::string SystemStatusItem::to_string() {
 }
 
 std::string SystemStatusComponent::get_uptime_() {
-  uint64_t now = ((uint64_t) this->rollovers_ << 32) | millis();
+  uint64_t now = ((uint64_t) this->rollovers_ << 32) | this->last_ms_;
   uint32_t seconds = (now - this->start_ms_) / 1000;
   uint32_t days = seconds / (60 * 60 * 24);
   seconds -= days * (60 * 60 * 24);
@@ -52,6 +52,7 @@ std::string SystemStatusComponent::get_uptime_() {
 }
 
 void SystemStatusComponent::dump_config() {
+  this->update();
 #ifdef USE_WIFI
   this->data_["WiFi disconnects"].set_integer(this->wifi_disconnects);
 #endif
