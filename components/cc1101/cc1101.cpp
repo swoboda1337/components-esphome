@@ -71,7 +71,6 @@ CC1101::CC1101() {
   this->last_temperature_ = NAN;
 
   this->mode_ = false;
-  this->modulation_ = 2;
   this->chan_ = 0;
   this->pa_ = 12;
   this->last_pa_ = -1;
@@ -98,6 +97,8 @@ void CC1101::set_config_gdo0_adc_pin(voltage_sampler::VoltageSampler *pin) { gdo
 void CC1101::set_config_bandwidth(int bandwidth) { bandwidth_ = bandwidth; }
 
 void CC1101::set_config_frequency(int frequency) { frequency_ = frequency; }
+
+void CC1101::set_config_modulation(int modulation) { modulation_ = modulation; }
 
 void CC1101::set_config_rssi_sensor(sensor::Sensor *rssi_sensor) { rssi_sensor_ = rssi_sensor; }
 

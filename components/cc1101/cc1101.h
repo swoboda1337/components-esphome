@@ -82,6 +82,7 @@ class CC1101 : public PollingComponent,
   void set_config_gdo0_adc_pin(voltage_sampler::VoltageSampler *pin);
   void set_config_bandwidth(int bandwidth);
   void set_config_frequency(int frequency);
+  void set_config_modulation(int modulation);
   void set_config_rssi_sensor(sensor::Sensor *rssi_sensor);
   void set_config_lqi_sensor(sensor::Sensor *lqi_sensor);
   void set_config_temperature_sensor(sensor::Sensor *temperature_sensor);
