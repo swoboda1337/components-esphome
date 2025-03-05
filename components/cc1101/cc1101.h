@@ -56,6 +56,7 @@ class CC1101 : public PollingComponent,
   uint8_t m1pre_;
   uint8_t m1chsp_;
   uint8_t trxstate_;
+  uint8_t deviation_;
   uint8_t clb_[4][2];
   uint8_t pa_table_[8];
 
@@ -83,6 +84,7 @@ class CC1101 : public PollingComponent,
   void set_config_bandwidth(int bandwidth);
   void set_config_frequency(int frequency);
   void set_config_modulation(int modulation);
+  void set_config_deviation(uint8_t deviation);
   void set_config_rssi_sensor(sensor::Sensor *rssi_sensor);
   void set_config_lqi_sensor(sensor::Sensor *lqi_sensor);
   void set_config_temperature_sensor(sensor::Sensor *temperature_sensor);

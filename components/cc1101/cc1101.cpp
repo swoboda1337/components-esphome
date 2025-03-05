@@ -96,6 +96,8 @@ void CC1101::set_config_gdo0_adc_pin(voltage_sampler::VoltageSampler *pin) { gdo
 
 void CC1101::set_config_bandwidth(int bandwidth) { bandwidth_ = bandwidth; }
 
+void CC1101::set_config_deviation(uint8_t deviation) { deviation_ = deviation; }
+
 void CC1101::set_config_frequency(int frequency) { frequency_ = frequency; }
 
 void CC1101::set_config_modulation(int modulation) { modulation_ = modulation; }
@@ -147,7 +149,7 @@ void CC1101::setup() {
   this->write_register_(CC1101_MDMCFG1, 0x02);
   this->write_register_(CC1101_MDMCFG0, 0xF8);
   this->write_register_(CC1101_CHANNR, this->chan_);
-  this->write_register_(CC1101_DEVIATN, 0x47);
+  this->write_register_(CC1101_DEVIATN, this->deviation_);
   this->write_register_(CC1101_FREND1, 0x56);
   this->write_register_(CC1101_MCSM0, 0x18);
   this->write_register_(CC1101_FOCCFG, 0x16);

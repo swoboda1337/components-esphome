@@ -29,6 +29,7 @@ CODEOWNERS = ["@gabest11"]
 CONF_GDO0_PIN = "gdo0_pin"
 CONF_GDO0_ADC_ID = "gdo0_adc_id"
 CONF_BANDWIDTH = "bandwidth"
+CONF_DEVIATION = "deviation"
 CONF_MODULATION = "modulation"
 CONF_RSSI = "rssi"
 CONF_LQI = "lqi"
@@ -40,7 +41,7 @@ CC1101 = ns.class_("CC1101", cg.PollingComponent, spi.SPIDevice)
 
 MOD = {
     "2FSK": 0,
-    "GSKK": 1,
+    "GFSK": 1,
     "ASK": 2,
     "4FSK": 3,
     "MSK": 4,
@@ -53,6 +54,7 @@ CONFIG_SCHEMA = (
             cv.Optional(CONF_GDO0_PIN): pins.gpio_output_pin_schema,
             cv.Optional(CONF_GDO0_ADC_ID): cv.use_id(voltage_sampler.VoltageSampler),
             cv.Optional(CONF_BANDWIDTH, default=200): cv.uint32_t,
+            cv.Optional(CONF_DEVIATION, default=0x47): cv.hex_uint8_t,
             cv.Optional(CONF_FREQUENCY, default=433920): cv.uint32_t,
             cv.Optional(CONF_MODULATION, default="ASK"): cv.enum(MOD),
             cv.Optional(CONF_RSSI): sensor.sensor_schema(
@@ -93,6 +95,7 @@ async def to_code(config):
     cg.add(var.set_config_bandwidth(config[CONF_BANDWIDTH]))
     cg.add(var.set_config_frequency(config[CONF_FREQUENCY]))
     cg.add(var.set_config_modulation(config[CONF_MODULATION]))
+    cg.add(var.set_config_deviation(config[CONF_DEVIATION]))
     if CONF_RSSI in config:
         rssi = await sensor.new_sensor(config[CONF_RSSI])
         cg.add(var.set_config_rssi_sensor(rssi))
