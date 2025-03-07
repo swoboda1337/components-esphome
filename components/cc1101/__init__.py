@@ -112,10 +112,9 @@ EndTxAction = ns.class_("EndTxAction", automation.Action)
 
 CC1101_ACTION_SCHEMA = maybe_simple_id(
     {
-        cv.Required(CONF_ID): cv.use_id(CC1101),
+        cv.GenerateID(CONF_ID): cv.use_id(CC1101),
     }
 )
-
 
 @automation.register_action("cc1101.begin_tx", BeginTxAction, CC1101_ACTION_SCHEMA)
 @automation.register_action("cc1101.end_tx", EndTxAction, CC1101_ACTION_SCHEMA)
