@@ -391,7 +391,7 @@ void CC1101::set_mode_(bool s) {
     this->write_register_(CC1101_IOCFG0, 0x06);
     this->write_register_(CC1101_PKTCTRL0, 0x05);
     this->write_register_(CC1101_MDMCFG3, 0xF8);
-    this->write_register_(CC1101_MDMCFG4, 11 + this->m4rxbw_);
+    this->write_register_(CC1101_MDMCFG4, 5 + this->m4rxbw_);
   } else {
     this->write_register_(CC1101_IOCFG2, 0x0D);
     this->write_register_(CC1101_IOCFG0, 0x0D);
@@ -433,6 +433,8 @@ void CC1101::set_modulation_(uint8_t m) {
       this->frend0_ = 0x10;
       break;  // MSK
   }
+
+  this->m2syncm_ = 0x04;
 
   this->write_register_(CC1101_MDMCFG2, this->m2dcoff_ + this->m2modfm_ + this->m2manch_ + this->m2syncm_);
   this->write_register_(CC1101_FREND0, this->frend0_);
