@@ -156,7 +156,7 @@ void CC1101::setup() {
   this->write_register_(CC1101_BSCFG, 0x1C);
   this->write_register_(CC1101_AGCCTRL2, 0xC7);
   this->write_register_(CC1101_AGCCTRL1, 0x00);
-  this->write_register_(CC1101_AGCCTRL0, 0xB2);
+  this->write_register_(CC1101_AGCCTRL0, 0xB1);
   this->write_register_(CC1101_FSCAL3, 0xE9);
   this->write_register_(CC1101_FSCAL2, 0x2A);
   this->write_register_(CC1101_FSCAL1, 0x00);
