@@ -3,16 +3,15 @@ Example:
 esphome:
   name: "test"
   includes:
-    - "/home/jon/Work/opendtu/cmt2300a.h"
+    - "/home/jon/Work/components-esphome/components/cmt2300a/cmt2300a.h"
 
 spi:
-  id: spi_0
   mosi_pin: GPIO09
   miso_pin: GPIO08
   clk_pin: GPIO07
   
 sx126x:
-  id: sx1262
+  id: sx126x_id
   dio1_pin: GPIO39   
   busy_pin: GPIO40
   rst_pin: GPIO42
