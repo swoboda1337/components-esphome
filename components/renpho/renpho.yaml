@@ -1,0 +1,42 @@
+substitutions:
+  renpho_mac: "AA:BB:CC:DD:EE:FF"
+
+esp32_ble_tracker:
+  scan_parameters:
+    active: true
+  on_ble_advertise:
+    - mac_address: "${renpho_mac}"
+      then:
+        - lambda: !lambda |-
+            // Renpho ES-CS20M BLE Weight Decoder
+            // Protocol: QN-Scale AABB passive broadcast (no connection needed)
+            //
+            // Manufacturer data format:
+            //   [0:1]   AA BB magic header
+            //   [2:7]   MAC address
+            //   [8]     Sequence counter
+            //   [15]    Flags: bit 0 set = stable reading
+            //   [17:18] Weight (little-endian uint16) / 100 = kg
+            for (auto &mfr : x.get_manufacturer_datas()) {
+              auto &d = mfr.data;
+              if (d.size() < 19 || d[0] != 0xAA || d[1] != 0xBB)
+                continue;
+
+              float weight = ((d[18] << 8) | d[17]) / 100.0f;
+              bool stable = (d[15] & 0x01) != 0;
+
+              if (!stable || weight < 0.5f || weight > 300.0f)
+                continue;
+
+              id(renpho_weight).publish_state(weight);
+            }
+
+sensor:
+  - platform: template
+    name: "Renpho Weight"
+    id: renpho_weight
+    unit_of_measurement: "kg"
+    accuracy_decimals: 2
+    device_class: weight
+    state_class: measurement
+    icon: "mdi:scale-bathroom"
