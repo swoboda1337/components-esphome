@@ -19,13 +19,12 @@ esp32_ble_tracker:
             //   [17:18] Weight (little-endian uint16) / 100 = kg
             for (auto &mfr : x.get_manufacturer_datas()) {
               auto &d = mfr.data;
-              if (d.size() < 19 || d[0] != 0xAA || d[1] != 0xBB) {
-                continue;
-              }
-              float weight = ((d[18] << 8) | d[17]) / 100.0f;
-              bool stable = (d[15] & 0x01) != 0;
-              if (stable && weight > 0.5f && weight < 300.0f) {
-                id(weight_scale).publish_state(weight);
+              if (d.size() >= 19 && d[0] == 0xAA && d[1] == 0xBB) {
+                float weight = ((d[18] << 8) | d[17]) / 100.0f;
+                bool stable = (d[15] & 0x01) != 0;
+                if (stable && weight > 0.5f && weight < 300.0f) {
+                  id(weight_scale).publish_state(weight);
+                }
               }
             }
 
